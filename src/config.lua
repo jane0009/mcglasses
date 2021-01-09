@@ -2,7 +2,7 @@
   written by jane petrovna
   01/08/21
 ]]
--- TODO implement
+local filesystem = require("filesystem")
 
 local CONFIG_LOCATION = "/etc/mcg.conf"
 
@@ -23,13 +23,17 @@ local function __get_line_value(line)
 end
 
 local function __parse_config_values()
+  if not filesystem.exists(CONFIG_LOCATION) then
+    return
+  end
   local file = io.open(CONFIG_LOCATION, "r")
 
-  local line = file:read("*l")
-  while line ~= nil do
+  local line = ""
+  repeat
+    line = file:read("*l")
     local key, value = __get_line_value(line)
     config_values[key] = value
-  end 
+  until line == nil
 end
 
 local function __save_config_values()
