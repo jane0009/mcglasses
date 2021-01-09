@@ -30,7 +30,7 @@ end
 local function __get_largest_screen()
   local biggest_size = 0
   local biggest_key = nil
-  for key, value in screens do
+  for key, value in pairs(screens) do
     local tw, th = value.getAspectRatio()
 
     if tw * th > biggest_size then
@@ -42,7 +42,7 @@ local function __get_largest_screen()
 end
 
 local function __get_any_other_screen(screen)
-  for key, value in screens do
+  for key, value in pairs(screens) do
     if screen ~= key then
       return key
     end
@@ -51,7 +51,7 @@ local function __get_any_other_screen(screen)
 end
 
 local function __get_any_other_gpu(gpu)
-  for key, value in gpus do
+  for key, value in pairs(gpus) do
     if gpu ~= key then
       return key
     end

@@ -6,6 +6,7 @@ local util = {}
 
 util.get = function(filename)
   io.stdout:write("loading " .. filename)
+  coroutine.yield()
   return dofile("/var/janeptrv/mcglasses/src/" .. filename .. ".lua")
 end
 return util
