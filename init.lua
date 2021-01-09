@@ -61,6 +61,7 @@ else
 
     -- super not cool but this file is short so
     for chunk in response do
+      print(chunk)
       fremotestring = fremotestring + chunk
     end
     print(fremotestring)
