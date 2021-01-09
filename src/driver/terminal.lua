@@ -115,7 +115,7 @@ terminal.write = function(msg)
   __smooth_scroll()
 end
 terminal.writeLine = function(msg)
-  terminal.write(msg .. "\n")
+  terminal.write(msg)
 
   -- manually increment where we are
   term_x = 1
