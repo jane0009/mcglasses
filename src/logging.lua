@@ -30,13 +30,16 @@ local terminal_enabled = config.get_value("log_to_terminal", "true") == true
 local glasses_enabled = config.get_value("log_to_glasses", "true") == true
 
 local function __create_message(msg)
-  io.stdout:write(msg + "\n")
+  if msg == nil then
+    msg = "nil"
+  end
+  io.stdout:write(msg .. "\n")
   if terminal_enabled then
     terminal.writeLine(msg)
   end
   if file_enabled then
     local file = filesystem.open(log_file, "a")
-    file:write(msg + "\n")
+    file:write(msg .. "\n")
     file:close()
   end
 end
