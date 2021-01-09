@@ -57,13 +57,24 @@ else
     {["user-agent"] = "MCG/OpenComputers"}
   )
   if result then
-    local fremotestring = response[1]
+    local fremotestring = ""
+
+    -- super not cool but this file is short so
+    for chunk in response do
+      fremotestring = fremotestring + chunk
+    end
     if fremotestring ~= nil then
       local internet_version = get_version(fremotestring)
       if internet_version > version then
         redownload()
       end
+    else
+      print("could not parse remote file (NO FSTRINGREMOTE)")
+      redownload()
     end
+  else
+    print("could not get remote file (NO RESULT)")
+    redownload()
   end
 end
 
