@@ -14,15 +14,15 @@ local debug_gpu = nil
 local debug_screen = nil
 
 local function __get_all_screen_proxies()
-  local screens = component.list("screen")
-  for key, _ in screens do
+  local screen_list = component.list("screen")
+  for key, _ in screen_list do
     screens[key] = component.proxy(key)
   end
 end
 
 local function __get_all_gpu_proxies()
-  local gpus = component.list("gpu")
-  for key, _ in pairs(gpus) do
+  local gpu_list = component.list("gpu")
+  for key, _ in pairs(gpu_list) do
     gpus[key] = component.proxy(key)
   end
 end

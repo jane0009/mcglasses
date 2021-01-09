@@ -4,8 +4,8 @@
 ]]
 local filesystem = require("filesystem")
 local util = dofile("/var/janeptrv/mcglasses/src/util.lua")
-local terminal = util.get("terminal")
-local config = util.get("config")
+local terminal = util.get("driver/terminal")
+local config = util.get("driver/config")
 
 local logging = {}
 

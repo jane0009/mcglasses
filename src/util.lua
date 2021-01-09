@@ -4,9 +4,17 @@
 ]]
 local util = {}
 
+local cache = {}
+
 util.get = function(filename)
-  io.stdout:write("loading " .. filename)
   coroutine.yield()
-  return dofile("/var/janeptrv/mcglasses/src/" .. filename .. ".lua")
+  io.stdout:write("loading " .. filename)
+  if cache[filename] then
+    return cache[filename]
+  else
+    local load = dofile("/var/janeptrv/mcglasses/src/" .. filename .. ".lua")
+    cache[filename] = load
+    return load
+  end
 end
 return util
