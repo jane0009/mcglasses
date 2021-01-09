@@ -68,9 +68,9 @@ else
 end
 
 -- insert ourselves into startup
-if not filesystem.exists("/boot/99_mcglasses.lua") then
+if not filesystem.exists("/autorun.lua") then
   print("adding ourselves to startup...")
-  local file = filesystem.open("/boot/99_mcglasses.lua", "w")
+  local file = filesystem.open("/autorun.lua", "w")
   file:write('local shell = require("shell")\n')
   file:write('shell.execute("/var/janeptrv/mcglasses/init.lua")')
   file:close()
