@@ -38,9 +38,16 @@ local function __create_message(msg)
     terminal.writeLine(msg)
   end
   if file_enabled then
-    local file = filesystem.open(log_file, "a")
-    file:write(msg .. "\n")
-    file:close()
+    if filesystem.exists(log_file) then
+      local file = filesystem.open(log_file, "a")
+      file:write(msg .. "\n")
+      file:close()
+    else
+      local file = filesystem.open(log_file, "w")
+      file:write("LOG BEGINS\n")
+      file:write(msg .. "\n")
+      file:close()
+    end
   end
 end
 
