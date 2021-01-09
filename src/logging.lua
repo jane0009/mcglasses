@@ -25,9 +25,9 @@ end
 
 -- TODO replace with config
 local log_file = config.get_value("log_file", "/var/log/mcg.log")
-local file_enabled = config.get_value("log_to_file", "true") == true
-local terminal_enabled = config.get_value("log_to_terminal", "true") == true
-local glasses_enabled = config.get_value("log_to_glasses", "true") == true
+local file_enabled = config.get_value("log_to_file", "true") == "true"
+local terminal_enabled = config.get_value("log_to_terminal", "true") == "true"
+local glasses_enabled = config.get_value("log_to_glasses", "true") == "true"
 
 local function __create_message(msg)
   if msg == nil then
