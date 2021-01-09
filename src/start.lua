@@ -1,9 +1,9 @@
---VERSION 0
+--VERSION 1
 --[[
   written by jane petrovna
   01/08/21
 ]]
-local logging = require("./logging")
+local logging = dofile("./logging.lua")
 
 logging.debug("Starting Glasses Manager")
 

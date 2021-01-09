@@ -2,7 +2,7 @@
   written by jane petrovna
   01/08/21
 ]]
-local terminal = require("./terminal")
+local terminal = dofile("./terminal.lua")
 
 local logging = {}
 
