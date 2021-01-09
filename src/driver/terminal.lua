@@ -95,11 +95,18 @@ __init()
 
 -- reimplement term api but for this logging screen
 
-local term_x = 0
-local term_y = 0
+local term_x = 1
+local term_y = 1
+local width, height = debug_gpu.getResolution()
 
 local function __smooth_scroll()
   -- TODO smooth scrolling
+  if term_y >= height - 1 then
+    for i = 1, height do
+      debug_gpu.copy(1, i + 1, width, 1, 1, i)
+    end
+    term_y = term_y - 1
+  end
 end
 terminal.write = function(msg)
   debug_gpu.set(term_x, term_y, tostring(msg))
@@ -111,7 +118,7 @@ terminal.writeLine = function(msg)
   terminal.write(msg .. "\n")
 
   -- manually increment where we are
-  term_x = 0
+  term_x = 1
   term_y = term_y + 1
   __smooth_scroll()
 end
