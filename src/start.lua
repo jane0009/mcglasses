@@ -3,7 +3,8 @@
   written by jane petrovna
   01/08/21
 ]]
-local logging = dofile("./logging.lua")
+local util = dofile("/var/janeptrv/mcglasses/src/util.lua")
+local logging = util.get("logging")
 
 logging.info("Starting Glasses Manager")
 

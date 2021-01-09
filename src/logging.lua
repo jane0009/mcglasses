@@ -2,7 +2,8 @@
   written by jane petrovna
   01/08/21
 ]]
-local terminal = dofile("./terminal.lua")
+local util = dofile("/var/janeptrv/mcglasses/src/util.lua")
+local terminal = util.get("terminal")
 
 local logging = {}
 
