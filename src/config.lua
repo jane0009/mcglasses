@@ -6,7 +6,7 @@ local filesystem = require("filesystem")
 
 local CONFIG_LOCATION = "/etc/mcg.conf"
 
-if os.getenv("MCG_CONFIG") then
+if os.getenv("MCG_CONFIG") ~= nil then
   CONFIG_LOCATION = os.getenv("MCG_CONFIG")
 end
 
@@ -22,9 +22,17 @@ local function __get_line_value(line)
   return nil, nil
 end
 
+local function __save_config_values()
+  local file = io.open(CONFIG_LOCATION, "w")
+  for key, value in pairs(config_values) do
+    file:write(key .. "=" .. value .. "\n")
+  end
+  file:close()
+end
+
 local function __parse_config_values()
   if not filesystem.exists(CONFIG_LOCATION) then
-    return
+    __save_config_values()
   end
   local file = io.open(CONFIG_LOCATION, "r")
   if file == nil then
@@ -37,14 +45,6 @@ local function __parse_config_values()
     local key, value = __get_line_value(line)
     config_values[key] = value
   until line == nil
-end
-
-local function __save_config_values()
-  local file = io.open(CONFIG_LOCATION, "w")
-  for key, value in pairs(config_values) do
-    file:write(key .. "=" .. value .. "\n")
-  end
-  file:close()
 end
 
 config.get_value = function(key, default)
