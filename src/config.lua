@@ -27,6 +27,9 @@ local function __parse_config_values()
     return
   end
   local file = io.open(CONFIG_LOCATION, "r")
+  if file == nil then
+    return
+  end
 
   local line = ""
   repeat
