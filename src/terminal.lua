@@ -65,7 +65,7 @@ local function __setup_debug_term()
   local largest_screen = __get_largest_screen()
   if currently_active_screen == largest_screen then
     -- rebind the terminal to any other available screen
-    local new_screen = __get_any_other_screen(currently_active_screen)
+    local new_screen = __get_any_other_screen(largest_screen)
     if new_screen == nil then
       os.exit()
     end
@@ -80,6 +80,7 @@ local function __setup_debug_term()
   debug_gpu = new_gpu
   debug_screen = largest_screen
   debug_gpu.bind(debug_screen, true)
+  debug_gpu.setBackground(0xFFFF00) -- just to make sure i have the right screen
 end
 
 local function __init()
@@ -99,6 +100,7 @@ local function __smooth_scroll()
   -- TODO smooth scrolling
 end
 terminal.write = function(msg)
+  debug_gpu.set(term_x, term_y, tostring(msg))
   -- TODO implement
   -- TODO character wrap
   __smooth_scroll()
