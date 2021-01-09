@@ -5,6 +5,6 @@
 local util = {}
 
 util.get = function(filename)
-  return dofile("/var/janeptrv/mcglasses/src/" + filename + ".lua")
+  return dofile("/var/janeptrv/mcglasses/src/" .. filename .. ".lua")
 end
 return util
