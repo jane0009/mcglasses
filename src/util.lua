@@ -7,7 +7,7 @@ local util = {}
 local cache = {}
 
 util.get = function(filename)
-  coroutine.yield()
+  --coroutine.yield()
   io.stdout:write("loading " .. filename)
   if cache[filename] then
     return cache[filename]
