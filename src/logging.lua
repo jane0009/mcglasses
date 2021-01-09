@@ -2,8 +2,11 @@
   written by jane petrovna
   01/08/21
 ]]
+
+local filesystem = require("filesystem")
 local util = dofile("/var/janeptrv/mcglasses/src/util.lua")
 local terminal = util.get("terminal")
+local config = util.get("config")
 
 local logging = {}
 
@@ -12,7 +15,7 @@ local logging = {}
 -- 1 = WARN
 -- 2 = INFO
 -- 3 = DEBUG
-logging.log_level = 2
+logging.log_level = tonumber(config.get_value("log_level", "2"))
 
 logging.set_log_level = function(level)
   local l = tonumber(level)
@@ -22,12 +25,19 @@ logging.set_log_level = function(level)
 end
 
 -- TODO replace with config
-local terminal_enabled = true
-local glasses_enabled = true
+local log_file = config.get_value("log_file", "/var/log/mcg.log")
+local file_enabled = config.get_value("log_to_file", "true") == true
+local terminal_enabled = config.get_value("log_to_terminal", "true") == true
+local glasses_enabled = config.get_value("log_to_glasses", "true") == true
 
 local function __create_message(msg)
   if terminal_enabled then
     terminal.writeLine(msg)
+  end
+  if file_enabled then
+    local file = filesystem.open(log_file, "a")
+    file:write(msg + "\n")
+    file:close()
   end
 end
 
