@@ -37,7 +37,7 @@ if not filesystem.exists("/var/janeptrv") then
 end
 
 -- check main program version
-if not filesystem.exist("/var/janeptrv/mcglasses/src/start.lua") then
+if not filesystem.exists("/var/janeptrv/mcglasses/src/start.lua") then
   redownload()
 end
 local file = filesystem.open("/var/janeptrv/mcglasses/src/start.lua")
