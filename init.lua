@@ -87,6 +87,6 @@ if is_running ~= nil and is_running ~= false then
 end
 
 local thread = require("thread")
-local process = thread.create(os.execute, "/tmp/janeptrv/mcglasses/src/start.lua")
+local process = thread.create(os.execute, "/var/janeptrv/mcglasses/src/start.lua")
 process:detach() -- bye bye! into the background you go!
 os.setenv("MCG_RUNNING", true)
