@@ -49,32 +49,16 @@ else
   local version = get_version(fstring)
 
   local internet = require("internet")
-  local result, response =
-    pcall(
-    internet.request,
-    "https://raw.githubusercontent.com/janeptrv/mcglasses/master/src/start.lua",
-    nil,
-    {["user-agent"] = "MCG/OpenComputers"}
-  )
-  if result then
-    local fremotestring = ""
-
-    -- super not cool but start.lua should remain relatively short so
-    for chunk in response do
-      fremotestring = fremotestring .. chunk
-    end
-    print(fremotestring)
-    if fremotestring ~= nil then
-      local internet_version = get_version(fremotestring)
-      if internet_version > version then
-        redownload()
-      end
-    else
-      print("could not parse remote file (NO FSTRINGREMOTE)")
+  local handle = internet.open("https://raw.githubusercontent.com/janeptrv/mcglasses/master/src/start.lua")
+  local fremotestring = handle:read(30)
+  handle:close()
+  if fremotestring ~= nil then
+    local internet_version = get_version(fremotestring)
+    if internet_version > version then
       redownload()
     end
   else
-    print("could not get remote file (NO RESULT)")
+    print("could not parse remote file (NO FSTRINGREMOTE)")
     redownload()
   end
 end
