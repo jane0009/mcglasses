@@ -2,7 +2,6 @@
   written by jane petrovna
   01/08/21
 ]]
-
 local filesystem = require("filesystem")
 local util = dofile("/var/janeptrv/mcglasses/src/util.lua")
 local terminal = util.get("terminal")
@@ -31,6 +30,7 @@ local terminal_enabled = config.get_value("log_to_terminal", "true") == true
 local glasses_enabled = config.get_value("log_to_glasses", "true") == true
 
 local function __create_message(msg)
+  io.stdout:write(msg + "\n")
   if terminal_enabled then
     terminal.writeLine(msg)
   end

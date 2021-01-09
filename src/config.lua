@@ -45,6 +45,7 @@ local function __parse_config_values()
     local key, value = __get_line_value(line)
     config_values[key] = value
   until line == nil
+  file:close()
 end
 
 config.get_value = function(key, default)
