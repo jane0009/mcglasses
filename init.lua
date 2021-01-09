@@ -59,10 +59,9 @@ else
   if result then
     local fremotestring = ""
 
-    -- super not cool but this file is short so
+    -- super not cool but start.lua should remain relatively short so
     for chunk in response do
-      print(chunk)
-      fremotestring = fremotestring + chunk
+      fremotestring = fremotestring .. chunk
     end
     print(fremotestring)
     if fremotestring ~= nil then
