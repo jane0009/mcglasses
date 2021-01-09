@@ -15,7 +15,7 @@ local config_values = {}
 local config = {}
 
 local function __get_line_value(line)
-  local sep = string.find("=")
+  local sep = string.find(line, "=")
   if sep ~= nil then
     return string.sub(line, 1, sep - 1), string.sub(line, sep + 1, string.len(line))
   end
@@ -42,8 +42,10 @@ local function __parse_config_values()
   local line = ""
   repeat
     line = file:read("*l")
-    local key, value = __get_line_value(line)
-    config_values[key] = value
+    if line ~= nil then
+      local key, value = __get_line_value(line)
+      config_values[key] = value
+    end
   until line == nil
   file:close()
 end
