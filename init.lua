@@ -63,6 +63,7 @@ else
     for chunk in response do
       fremotestring = fremotestring + chunk
     end
+    print(fremotestring)
     if fremotestring ~= nil then
       local internet_version = get_version(fremotestring)
       if internet_version > version then
