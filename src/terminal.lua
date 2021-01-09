@@ -4,8 +4,6 @@
 ]]
 local component = require("component")
 local term = require("term")
-local util = dofile("/var/janeptrv/mcglasses/src/util.lua")
-local logging = util.get("logging")
 
 local terminal = {}
 
@@ -65,8 +63,6 @@ local function __setup_debug_term()
   local current_gpu = term.gpu()
   local currently_active_screen = current_gpu.getScreen()
   local largest_screen = __get_largest_screen()
-  -- TODO change to debug
-  logging.info("current " .. currently_active_screen .. " largest " .. largest_screen)
   if currently_active_screen == largest_screen then
     -- rebind the terminal to any other available screen
     local new_screen = __get_any_other_screen(largest_screen)
@@ -78,7 +74,6 @@ local function __setup_debug_term()
 
   -- now, set the biggest screen as our output
   local new_gpu = __get_any_other_gpu(current_gpu.address)
-  logging.info("new gpu " .. new_gpu.address)
   if new_gpu == nil then
     os.exit()
   end
