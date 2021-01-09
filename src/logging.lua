@@ -43,6 +43,9 @@ local function __create_message(msg)
       file:write(msg .. "\n")
       file:close()
     else
+      if not filesystem.isDirectory(filesystem.path(log_file)) then
+        filesystem.makeDirectory(filesystem.path(log_file))
+      end
       local file = filesystem.open(log_file, "w")
       file:write("LOG BEGINS\n")
       file:write(msg .. "\n")
