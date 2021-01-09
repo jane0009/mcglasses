@@ -20,9 +20,51 @@ if not filesystem.exists("/usr/bin/gitrepo.lua") then
   end
 end
 
+local function redownload()
+  shell.execute("rm -rf /var/janeptrv")
+  shell.execute("gitrepo janeptrv/mcglasses /var/janeptrv/mcglasses")
+end
+
+local function get_version(fstring)
+  local first_newline = string.find(fstring, "\n")
+  local version = tonumber(string.sub(fstring, 11, first_newline))
+  return version
+end
+
 -- download required files
 if not filesystem.exists("/var/janeptrv") then
-  shell.execute("gitrepo janeptrv/mcglasses /var/janeptrv/mcglasses")
+  redownload()
+end
+
+-- check main program version
+if not filesystem.exist("/var/janeptrv/mcglasses/src/start.lua") then
+  redownload()
+end
+local file = filesystem.open("/var/janeptrv/mcglasses/src/start.lua")
+local fstring = file:read(20) -- idk just some really long number
+file:close()
+if fstring == nil then
+  redownload()
+else
+  local version = get_version(fstring)
+
+  local internet = require("internet")
+  local result, response =
+    pcall(
+    internet.request,
+    "https://raw.githubusercontent.com/janeptrv/mcglasses/master/src/start.lua",
+    nil,
+    {["user-agent"] = "MCG/OpenComputers"}
+  )
+  if result then
+    local fremotestring = response[1]
+    if fremotestring ~= nil then
+      local internet_version = get_version(fremotestring)
+      if internet_version > version then
+        redownload()
+      end
+    end
+  end
 end
 
 -- insert ourselves into startup
