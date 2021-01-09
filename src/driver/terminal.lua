@@ -80,7 +80,9 @@ local function __setup_debug_term()
   debug_gpu = component.proxy(new_gpu)
   debug_screen = largest_screen
   debug_gpu.bind(debug_screen, true)
-  debug_gpu.setBackground(0xFFFF00) -- just to make sure i have the right screen
+  debug_gpu.setBackground(0x0F0F0F) -- just to make sure i have the right screen
+  local w, h = debug_gpu.getResolution()
+  debug_gpu.fill(1, 1, w, h, " ") -- clear the screen
 end
 
 local function __init()
