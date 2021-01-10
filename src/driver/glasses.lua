@@ -11,8 +11,8 @@ local glasses = {}
 glasses.widgets = {}
 
 local max_log_lines = tonumber(config.get_value("glasses_log_lines", "5"))
-local render_resolution_x = tonumber(config.get_value("glasses_resolution_x", "1080"))
-local render_resolution_y = tonumber(config.get_value("glasses_resolution_y", "1920"))
+local render_resolution_x = tonumber(config.get_value("glasses_resolution_x", "1920"))
+local render_resolution_y = tonumber(config.get_value("glasses_resolution_y", "1080"))
 local log_pos = config.get_value("glasses_log_pos", "upper_right")
 local font = config.get_value("glasses_font", "Monospaced.bold")
 local font_size = tonumber(config.get_value("glasses_font_size", "18"))
@@ -70,6 +70,8 @@ local function __update_log()
     glasses.widgets["log_box"] = glasses.bound_glasses.addBox2D()
     glasses.widgets["log_box"].addAutoTranslation(x, y)
     glasses.widgets["log_box"].setSize(200, max_log_lines * (font_size + 5))
+    -- because gradients :(
+    glasses.widgets["log_box"].addColor(0.01, 0.01, 0.01, 0.8)
     glasses.widgets["log_box"].addColor(0.01, 0.01, 0.01, 0.8)
   end
   for i = 1, current_log_size do
