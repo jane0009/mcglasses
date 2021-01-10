@@ -30,7 +30,7 @@ end
 
 local log_positions = {
   upper_right = {
-    x = 90,
+    x = 85,
     y = 5
   },
   upper_left = {
@@ -38,12 +38,12 @@ local log_positions = {
     y = 5
   },
   lower_right = {
-    x = 90,
+    x = 85,
     y = 90
   },
   lower_left = {
     x = 5,
-    y = 90
+    y = 80
   }
 }
 
@@ -67,14 +67,14 @@ local function __update_log()
   if not glasses.widgets["log_box"] then
     glasses.widgets["log_box"] = glasses.bound_glasses.addBox2D()
     glasses.widgets["log_box"].addAutoTranslation(x, y)
-    glasses.widgets["log_box"].setSize(30 * 15, max_log_lines * 30)
-    glasses.widgets["log_box"].addColor(0.1, 0.1, 0.1, 0.5)
+    glasses.widgets["log_box"].setSize(30 * 15, max_log_lines * 60)
+    glasses.widgets["log_box"].addColor(0.1, 0.1, 0.1, 0.7)
   end
   for i = 1, current_log_size do
     if not glasses.widgets["log_text_" .. i] then
       glasses.widgets["log_text_" .. i] = glasses.bound_glasses.addText2D()
       glasses.widgets["log_text_" .. i].addAutoTranslation(x, y)
-      glasses.widgets["log_text_" .. i].addTranslation(0, i * 30, 0)
+      glasses.widgets["log_text_" .. i].addTranslation(0, i * 60, 0)
     end
     glasses.widgets["log_text_" .. i].setText(current_log[i])
   end
