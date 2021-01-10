@@ -14,6 +14,8 @@ local max_log_lines = tonumber(config.get_value("glasses_log_lines", "5"))
 local render_resolution_x = tonumber(config.get_value("glasses_resolution_x", "1080"))
 local render_resolution_y = tonumber(config.get_value("glasses_resolution_y", "1920"))
 local log_pos = config.get_value("glasses_log_pos", "upper_right")
+local font = config.get_value("glasses_font", "Monospaced.bold")
+local font_size = tonumber(config.get_value("glasses_font_size", "18"))
 local current_log = {}
 
 local function __init()
@@ -67,14 +69,16 @@ local function __update_log()
   if not glasses.widgets["log_box"] then
     glasses.widgets["log_box"] = glasses.bound_glasses.addBox2D()
     glasses.widgets["log_box"].addAutoTranslation(x, y)
-    glasses.widgets["log_box"].setSize(30 * 15, max_log_lines * 60)
-    glasses.widgets["log_box"].addColor(0.1, 0.1, 0.1, 0.7)
+    glasses.widgets["log_box"].setSize(200, max_log_lines * (font_size + 5))
+    glasses.widgets["log_box"].addColor(0.01, 0.01, 0.01, 0.8)
   end
   for i = 1, current_log_size do
     if not glasses.widgets["log_text_" .. i] then
       glasses.widgets["log_text_" .. i] = glasses.bound_glasses.addText2D()
       glasses.widgets["log_text_" .. i].addAutoTranslation(x, y)
-      glasses.widgets["log_text_" .. i].addTranslation(0, i * 60, 0)
+      glasses.widgets["log_text_" .. i].addTranslation(0, i * font_size, 0)
+      glasses.widgets["log_text_" .. i].setFont(font)
+      glasses.widgets["log_text_" .. i].setFontSize(font_size)
     end
     glasses.widgets["log_text_" .. i].setText(current_log[i])
   end
