@@ -5,6 +5,7 @@
 local filesystem = require("filesystem")
 local util = dofile("/var/janeptrv/mcglasses/src/util.lua")
 local terminal = util.get("driver/terminal")
+local glasses = util.get("driver/glasses")
 local config = util.get("driver/config")
 
 local logging = {}
@@ -36,6 +37,9 @@ local function __create_message(msg)
   io.stdout:write(msg .. "\n")
   if terminal_enabled then
     terminal.writeLine(msg)
+  end
+  if glasses_enabled then
+    glasses.log(msg)
   end
   if file_enabled then
     if filesystem.exists(log_file) then

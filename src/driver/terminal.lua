@@ -82,6 +82,7 @@ local function __setup_debug_term()
   debug_gpu.bind(debug_screen, true)
   debug_gpu.setBackground(0x2F2F2F) -- just to make sure i have the right screen
   local w, h = debug_gpu.getResolution()
+  debug_gpu.setResolution(math.floor(w/2), math.floor(h/2))
   debug_gpu.fill(1, 1, w, h, " ") -- clear the screen
 end
 
