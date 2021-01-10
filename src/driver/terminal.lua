@@ -6,6 +6,7 @@ local component = require("component")
 local term = require("term")
 
 local terminal = {}
+local logging
 
 local screens = {}
 local gpus = {}
@@ -140,6 +141,10 @@ end
 terminal.clearLine = function()
   term_x = 1
 debug_gpu.fill(1, 1, width, 1, " ")
+end
+
+terminal.inject_logging = function(log)
+  logging = log
 end
 
 return terminal
