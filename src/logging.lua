@@ -30,15 +30,15 @@ local file_enabled = config.get_value("log_to_file", "true") == "true"
 local terminal_enabled = config.get_value("log_to_terminal", "true") == "true"
 local glasses_enabled = config.get_value("log_to_glasses", "true") == "true"
 
-local function __create_message(msg)
+local function __create_message(msg, source)
   if msg == nil then
     msg = "nil"
   end
   io.stdout:write(msg .. "\n")
-  if terminal_enabled then
+  if terminal_enabled and source ~= "terminal" then
     terminal.writeLine(msg)
   end
-  if glasses_enabled then
+  if glasses_enabled and source ~= "glasses" then
     glasses.log(msg)
   end
   if file_enabled then
@@ -58,28 +58,30 @@ local function __create_message(msg)
   end
 end
 
-logging.error = function(msg)
+logging.error = function(msg, source)
   if logging.log_level >= 0 then
-    __create_message(msg)
+    __create_message(msg, source)
   end
 end
 
-logging.warn = function(msg)
+logging.warn = function(msg, source)
   if logging.log_level >= 1 then
-    __create_message(msg)
+    __create_message(msg, source)
   end
 end
 
-logging.info = function(msg)
+logging.info = function(msg, source)
   if logging.log_level >= 2 then
-    __create_message(msg)
+    __create_message(msg, source)
   end
 end
 
-logging.debug = function(msg)
+logging.debug = function(msg, source)
   if logging.log_level >= 3 then
-    __create_message(msg)
+    __create_message(msg, source)
   end
 end
 
+terminal.inject_logging(logging)
+glasses.inject_logging(logging)
 return logging

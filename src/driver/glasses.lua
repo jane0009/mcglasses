@@ -11,7 +11,8 @@ local glasses = {}
 glasses.widgets = {}
 
 local max_log_lines = tonumber(config.get_value("glasses_log_lines", "5"))
-local render_resolution = tonumber(config.get_value("glasses_resolution", "500"))
+local render_resolution_x = tonumber(config.get_value("glasses_resolution_x", "500"))
+local render_resolution_y = tonumber(config.get_value("glasses_resolution_y", "700"))
 local log_pos = config.get_value("glasses_log_pos", "upper_right")
 local current_log = {}
 
@@ -22,7 +23,7 @@ local function __init()
   glasses.bound_glasses = component.proxy(key)
 
   -- set up glasses
-  glasses.bound_glasses.setRenderResolution("", render_resolution, render_resolution)
+  glasses.bound_glasses.setRenderResolution("", render_resolution_x, render_resolution_y)
   glasses.bound_glasses.setRenderPosition("relative")
   glasses.bound_glasses.removeAll()
 end
@@ -53,6 +54,11 @@ end
 local current_log_size = 0
 
 local function __update_log()
+  for key, _ in pairs(glasses.widgets) do
+    if logging ~= nil then
+      logging.debug(key, "glasses")
+    end
+  end
   local x = log_positions[log_pos].x
   local y = log_positions[log_pos].y
   if not glasses.widgets["log_box"] then
