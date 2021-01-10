@@ -1,4 +1,4 @@
---VERSION 7
+--VERSION 8
 --[[
   written by jane petrovna
   01/08/21
@@ -8,7 +8,7 @@ local logging = util.get("logging")
 
 logging.info("Starting Glasses Manager")
 
-logging.debug("TEST LOG ------------------------")
+logging.debug("TEST LOG -A-B-C-D-E-F-G-H-I-J-K-L-")
 
 coroutine.yield()
 
