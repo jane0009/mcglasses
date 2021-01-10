@@ -62,6 +62,8 @@ local function __update_log()
   end
   local x = log_positions[log_pos].x
   local y = log_positions[log_pos].y
+
+  logging.debug("xy " .. x .. " " .. y, "glasses")
   if not glasses.widgets["log_box"] then
     glasses.widgets["log_box"] = glasses.bound_glasses.addBox2D()
     glasses.widgets["log_box"].addAutoTranslation(x, y)
