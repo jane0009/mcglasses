@@ -32,7 +32,7 @@ end
 
 local log_positions = {
   upper_right = {
-    x = 87,
+    x = 83,
     y = 2
   },
   upper_left = {
@@ -40,7 +40,7 @@ local log_positions = {
     y = 2
   },
   lower_right = {
-    x = 87,
+    x = 83,
     y = 90
   },
   lower_left = {
