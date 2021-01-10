@@ -68,16 +68,19 @@ local function __update_log()
   logging.debug("xy " .. x .. " " .. y, "glasses")
   if not glasses.widgets["log_box"] then
     glasses.widgets["log_box"] = glasses.bound_glasses.addBox2D()
-    glasses.widgets["log_box"].addAutoTranslation(x, y)
-    glasses.widgets["log_box"].setSize(200, max_log_lines * (font_size + 3))
-    -- because gradients :(
+    -- we can't trust it
+    --glasses.widgets["log_box"].addAutoTranslation(x, y)
+    glasses.widgets["log_box"].addTranslation((x / 100) * render_resolution_x, (y / 100) * render_resolution_y)
+    glasses.widgets["log_box"].setSize(font_size * 30, max_log_lines * (font_size + 3))
+    -- because gradients
     glasses.widgets["log_box"].addColor(0.01, 0.01, 0.01, 0.8)
     glasses.widgets["log_box"].addColor(0.01, 0.01, 0.01, 0.8)
   end
   for i = 1, current_log_size do
     if not glasses.widgets["log_text_" .. i] then
       glasses.widgets["log_text_" .. i] = glasses.bound_glasses.addText2D()
-      glasses.widgets["log_text_" .. i].addAutoTranslation(x, y)
+      --glasses.widgets["log_text_" .. i].addAutoTranslation(x, y)
+      glasses.widgets["log_text_" .. i].addTranslation((x / 100) * render_resolution_x, (y / 100) * render_resolution_y)
       glasses.widgets["log_text_" .. i].addTranslation(0, (i - 1) * (font_size + 3), 0)
       glasses.widgets["log_text_" .. i].setFont(font)
       glasses.widgets["log_text_" .. i].setFontSize(font_size)
@@ -95,7 +98,14 @@ glasses.log = function(msg)
   else
     current_log_size = current_log_size + 1
   end
-  current_log[current_log_size] = msg
+  if string.len(msg) > 30 then
+    local cur_msg = string.sub(msg, 1, 30)
+    local future_msg = string.sub(msg, 30, string.len(msg))
+    current_log[current_log_size] = cur_msg
+    glasses.log(future_msg)
+  else
+    current_log[current_log_size] = msg
+  end
   __update_log()
 end
 

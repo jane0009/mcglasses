@@ -10,7 +10,6 @@ local config = util.get("driver/config")
 
 local logging = {}
 
--- TODO init from config
 -- 0 = ERROR
 -- 1 = WARN
 -- 2 = INFO
@@ -24,7 +23,6 @@ logging.set_log_level = function(level)
   end
 end
 
--- TODO replace with config
 local log_file = config.get_value("log_file", "/var/log/mcg.log")
 local file_enabled = config.get_value("log_to_file", "true") == "true"
 local terminal_enabled = config.get_value("log_to_terminal", "true") == "true"

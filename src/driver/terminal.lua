@@ -102,7 +102,6 @@ local term_y = 1
 local width, height = debug_gpu.getResolution()
 
 local function __smooth_scroll()
-  -- TODO smooth scrolling
   if term_y >= height - 1 then
     for i = 1, height do
       debug_gpu.copy(1, i + 1, width, 1, 1, i)
@@ -112,7 +111,6 @@ local function __smooth_scroll()
 end
 terminal.write = function(msg)
   debug_gpu.set(term_x, term_y, tostring(msg))
-  -- TODO implement
   -- TODO character wrap
   __smooth_scroll()
 end
