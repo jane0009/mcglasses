@@ -54,9 +54,10 @@ end
 local current_log_size = 0
 
 local function __update_log()
-  for key, _ in pairs(glasses.widgets) do
+  for key, value in pairs(glasses.widgets) do
     if logging ~= nil then
       logging.debug(key, "glasses")
+      logging.debug(tostring(value), "glasses")
     end
   end
   local x = log_positions[log_pos].x
