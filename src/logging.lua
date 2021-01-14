@@ -79,14 +79,14 @@ logging.debug = function(msg, source)
   end
 end
 
-terminal.inject_logging(logging)
-glasses.inject_logging(logging)
-
 logging.__init = function(iutil)
   util = iutil
   terminal = util.get("driver/terminal")
   glasses = util.get("driver/glasses")
   config = util.get("driver/config")
+
+  terminal.inject_logging(logging)
+  glasses.inject_logging(logging)
 
   -- load config
   log_file = config.get_value("log_file", "/var/log/mcg.log")
