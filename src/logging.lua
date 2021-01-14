@@ -31,7 +31,7 @@ local function __create_message(msg, source)
   if msg == nil then
     msg = "nil"
   end
-  io.stdout:write(msg .. "\n")
+  --io.stdout:write(msg .. "\n")
   if terminal_enabled and source ~= "terminal" then
     terminal.writeLine(msg)
   end

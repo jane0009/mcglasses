@@ -36,7 +36,6 @@ while running do
     os.setenv("MCG_RUNNING", false)
   else
     logging.debug("got event " .. event)
-    coroutine.yield()
   end
 end
 
