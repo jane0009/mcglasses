@@ -5,6 +5,9 @@
 local component = require("component")
 local term = require("term")
 
+local util
+local config
+
 local terminal = {}
 local logging
 
@@ -13,6 +16,8 @@ local gpus = {}
 
 local debug_gpu = nil
 local debug_screen = nil
+
+local log_limit = tonumber(config.get_value("log_width_limit", "60"))
 
 local function __get_all_screen_proxies()
   local screen_list = component.list("screen")
@@ -83,7 +88,7 @@ local function __setup_debug_term()
   debug_gpu.bind(debug_screen, true)
   debug_gpu.setBackground(0x2F2F2F) -- just to make sure i have the right screen
   local w, h = debug_gpu.getResolution()
-  debug_gpu.setResolution(math.floor(w/2), math.floor(h/2))
+  debug_gpu.setResolution(math.floor(w / 2), math.floor(h / 2))
   debug_gpu.fill(1, 1, w, h, " ") -- clear the screen
 end
 
@@ -110,8 +115,17 @@ local function __smooth_scroll()
   end
 end
 terminal.write = function(msg)
-  debug_gpu.set(term_x, term_y, tostring(msg))
-  -- TODO character wrap
+  if string.len(msg) > 60 then
+    local cur_msg = string.sub(msg, 1, log_limit)
+    local future_msg = string.sub(msg, log_limit + 1, string.len(msg))
+    debug_gpu.set(term_x, term_y, tostring(cur_msg))
+    term_y = term_y + 1
+    term_x = 1
+    terminal.write(future_msg)
+  else
+    debug_gpu.set(term_x, term_y, tostring(msg))
+    term_x = term_x + string.len(msg)
+  end
   __smooth_scroll()
 end
 terminal.writeLine = function(msg)
@@ -138,11 +152,16 @@ terminal.clear = function()
 end
 terminal.clearLine = function()
   term_x = 1
-debug_gpu.fill(1, 1, width, 1, " ")
+  debug_gpu.fill(1, 1, width, 1, " ")
 end
 
 terminal.inject_logging = function(log)
   logging = log
+end
+
+terminal.__init = function(iutil)
+  util = iutil
+  config = util.get("driver/config")
 end
 
 return terminal

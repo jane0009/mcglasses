@@ -3,10 +3,10 @@
   01/08/21
 ]]
 local filesystem = require("filesystem")
-local util = dofile("/var/janeptrv/mcglasses/src/util.lua")
-local terminal = util.get("driver/terminal")
-local glasses = util.get("driver/glasses")
-local config = util.get("driver/config")
+local util
+local terminal
+local glasses
+local config
 
 local logging = {}
 
@@ -82,4 +82,11 @@ end
 
 terminal.inject_logging(logging)
 glasses.inject_logging(logging)
+
+logging.__init = function(iutil)
+  util = iutil
+  terminal = util.get("driver/terminal")
+  glasses = util.get("driver/glasses")
+  config = util.get("driver/config")
+end
 return logging

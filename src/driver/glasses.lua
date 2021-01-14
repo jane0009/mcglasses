@@ -3,8 +3,8 @@
   01/09/21
 ]]
 local component = require("component")
-local util = dofile("/var/janeptrv/mcglasses/src/util.lua")
-local config = util.get("driver/config")
+local util
+local config
 local logging
 
 local glasses = {}
@@ -16,6 +16,8 @@ local render_resolution_y = tonumber(config.get_value("glasses_resolution_y", "1
 local log_pos = config.get_value("glasses_log_pos", "upper_right")
 local font = config.get_value("glasses_font", "Monospaced.bold")
 local font_size = tonumber(config.get_value("glasses_font_size", "18"))
+local log_limit = tonumber(config.get_value("glasses_log_width_limit", "30"))
+
 local current_log = {}
 
 local function __init()
@@ -80,7 +82,11 @@ local function __update_log()
     if not glasses.widgets["log_text_" .. i] then
       glasses.widgets["log_text_" .. i] = glasses.bound_glasses.addText2D()
       --glasses.widgets["log_text_" .. i].addAutoTranslation(x, y)
-      glasses.widgets["log_text_" .. i].addTranslation((x / 100) * render_resolution_x, (y / 100) * render_resolution_y, 0)
+      glasses.widgets["log_text_" .. i].addTranslation(
+        (x / 100) * render_resolution_x,
+        (y / 100) * render_resolution_y,
+        0
+      )
       glasses.widgets["log_text_" .. i].addTranslation(0, (i - 1) * (font_size + 3), 0)
       glasses.widgets["log_text_" .. i].setFont(font)
       glasses.widgets["log_text_" .. i].setFontSize(font_size)
@@ -99,8 +105,8 @@ glasses.log = function(msg)
     current_log_size = current_log_size + 1
   end
   if string.len(msg) > 30 then
-    local cur_msg = string.sub(msg, 1, 30)
-    local future_msg = string.sub(msg, 30, string.len(msg))
+    local cur_msg = string.sub(msg, 1, log_limit)
+    local future_msg = string.sub(msg, log_limit + 1, string.len(msg))
     current_log[current_log_size] = cur_msg
     glasses.log(future_msg)
   else
@@ -113,5 +119,9 @@ __init()
 
 glasses.inject_logging = function(log)
   logging = log
+end
+glasses.__init = function(iutil)
+  util = iutil
+  config = util.get("driver/config")
 end
 return glasses

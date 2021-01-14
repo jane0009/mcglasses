@@ -3,6 +3,7 @@
   01/08/21
 ]]
 local filesystem = require("filesystem")
+local util
 
 local CONFIG_LOCATION = "/etc/mcg.conf"
 
@@ -61,4 +62,8 @@ config.get_value = function(key, default)
 end
 
 __parse_config_values()
+
+config.__init = function(iutil)
+  util = iutil
+end
 return config
