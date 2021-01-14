@@ -115,8 +115,6 @@ glasses.log = function(msg)
   __update_log()
 end
 
-__init()
-
 glasses.inject_logging = function(log)
   logging = log
 end
@@ -131,5 +129,7 @@ glasses.__init = function(iutil)
   font = config.get_value("glasses_font", "Monospaced.bold")
   font_size = tonumber(config.get_value("glasses_font_size", "18"))
   log_limit = tonumber(config.get_value("glasses_log_width_limit", "30"))
+
+  __init()
 end
 return glasses
