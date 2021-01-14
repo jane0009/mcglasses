@@ -10,13 +10,13 @@ local logging
 local glasses = {}
 glasses.widgets = {}
 
-local max_log_lines = tonumber(config.get_value("glasses_log_lines", "5"))
-local render_resolution_x = tonumber(config.get_value("glasses_resolution_x", "1920"))
-local render_resolution_y = tonumber(config.get_value("glasses_resolution_y", "1080"))
-local log_pos = config.get_value("glasses_log_pos", "upper_right")
-local font = config.get_value("glasses_font", "Monospaced.bold")
-local font_size = tonumber(config.get_value("glasses_font_size", "18"))
-local log_limit = tonumber(config.get_value("glasses_log_width_limit", "30"))
+local max_log_lines
+local render_resolution_x
+local render_resolution_y
+local log_pos
+local font
+local font_size
+local log_limit
 
 local current_log = {}
 
@@ -123,5 +123,13 @@ end
 glasses.__init = function(iutil)
   util = iutil
   config = util.get("driver/config")
+
+  max_log_lines = tonumber(config.get_value("glasses_log_lines", "5"))
+  render_resolution_x = tonumber(config.get_value("glasses_resolution_x", "1920"))
+  render_resolution_y = tonumber(config.get_value("glasses_resolution_y", "1080"))
+  log_pos = config.get_value("glasses_log_pos", "upper_right")
+  font = config.get_value("glasses_font", "Monospaced.bold")
+  font_size = tonumber(config.get_value("glasses_font_size", "18"))
+  log_limit = tonumber(config.get_value("glasses_log_width_limit", "30"))
 end
 return glasses

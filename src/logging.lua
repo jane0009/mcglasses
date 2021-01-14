@@ -14,7 +14,6 @@ local logging = {}
 -- 1 = WARN
 -- 2 = INFO
 -- 3 = DEBUG
-logging.log_level = tonumber(config.get_value("log_level", "2"))
 
 logging.set_log_level = function(level)
   local l = tonumber(level)
@@ -23,10 +22,10 @@ logging.set_log_level = function(level)
   end
 end
 
-local log_file = config.get_value("log_file", "/var/log/mcg.log")
-local file_enabled = config.get_value("log_to_file", "true") == "true"
-local terminal_enabled = config.get_value("log_to_terminal", "true") == "true"
-local glasses_enabled = config.get_value("log_to_glasses", "true") == "true"
+local log_file
+local file_enabled
+local terminal_enabled
+local glasses_enabled
 
 local function __create_message(msg, source)
   if msg == nil then
@@ -88,5 +87,12 @@ logging.__init = function(iutil)
   terminal = util.get("driver/terminal")
   glasses = util.get("driver/glasses")
   config = util.get("driver/config")
+
+  -- load config
+  log_file = config.get_value("log_file", "/var/log/mcg.log")
+  file_enabled = config.get_value("log_to_file", "true") == "true"
+  terminal_enabled = config.get_value("log_to_terminal", "true") == "true"
+  glasses_enabled = config.get_value("log_to_glasses", "true") == "true"
+  logging.log_level = tonumber(config.get_value("log_level", "2"))
 end
 return logging

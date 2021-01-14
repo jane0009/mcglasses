@@ -17,7 +17,7 @@ local gpus = {}
 local debug_gpu = nil
 local debug_screen = nil
 
-local log_limit = tonumber(config.get_value("log_width_limit", "60"))
+local log_limit
 
 local function __get_all_screen_proxies()
   local screen_list = component.list("screen")
@@ -162,6 +162,8 @@ end
 terminal.__init = function(iutil)
   util = iutil
   config = util.get("driver/config")
+
+  log_limit = tonumber(config.get_value("log_width_limit", "60"))
 end
 
 return terminal
