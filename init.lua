@@ -91,6 +91,7 @@ end
 if not filesystem.exists("/usr/bin/mcgexit.lua") then
   print("creating shutdown program...")
   local file = filesystem.open("/usr/bin/mcgexit.lua", "w")
+  file:write("local event = require('event')")
   file:write("event.push('mcg_exit', 'manual')")
   file:close()
 end

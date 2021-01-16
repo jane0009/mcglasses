@@ -59,16 +59,16 @@ end
 local current_log_size = 0
 
 local function __update_log(user)
-  for key, value in pairs(glasses.widgets) do
-    if logging ~= nil then
-      logging.debug(key, "glasses")
-      logging.debug(tostring(value), "glasses")
-    end
-  end
+  --for key, value in pairs(glasses.widgets) do
+  --  if logging ~= nil then
+  --    logging.debug(key, "glasses")
+  --    logging.debug(tostring(value), "glasses")
+  --  end
+  --end
   local x = log_positions[log_pos].x
   local y = log_positions[log_pos].y
 
-  logging.debug("xy " .. x .. " " .. y, "glasses")
+  --logging.debug("xy " .. x .. " " .. y, "glasses")
   if not glasses.widgets[user] then
     glasses.widgets[user] = {}
   end
