@@ -14,7 +14,8 @@ local function parse_modules(module_list)
   if type(module_list ~= "table") then
     return
   end
-  for _, value in pairs(module_list) do
+  for key, value in pairs(module_list) do
+    logging.debug("loading module " .. key, "loader")
     if value ~= nil then
       if value.name ~= nil then
         -- todo also elements

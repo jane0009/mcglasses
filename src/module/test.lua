@@ -17,7 +17,9 @@ local function handle_chat_message(args)
 end
 
 local function handle_test_widget(w)
-  widget.addScale()
+  --widget.addScale()
+  widget.setFont("Monospaced.bold")
+  widget.setFontSize(16)
   widget = w
 end
 
