@@ -160,5 +160,8 @@ glasses.__init = function(iutil)
   log_limit = tonumber(config.get_value("glasses_log_width_limit", "30"))
 
   __init()
+
+  glasses.bound_glasses.size_x = render_resolution_x
+  glasses.bound_glasses.size_y = render_resolution_y
 end
 return glasses

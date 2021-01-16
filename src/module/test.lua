@@ -2,25 +2,38 @@
   written by jane petrovna
   01/15/21
 ]]
-
 --TODO improve syntax
 
 local mod = {}
+local widget
 
 local function handle_chat_message(args)
   if mod.logging then
     mod.logging.debug("chat message recv'd" .. args[0])
   end
-  print(args)
+  if widget then
+    widget.setText(tostring(args[0]))
+  end
+end
+
+local function handle_test_widget(w)
+  widget.addScale()
+  widget = w
 end
 
 mod = {
-  name="test",
-  pos = {
-    x = 50,
-    y = 50
+  name = "test",
+  elements = {
+    {
+      pos = {
+        type = "absolute",
+        x = 50,
+        y = 50
+      },
+      type = "Text2D",
+      handler = handle_test_widget
+    }
   },
-  elements = {},
   events = {
     chat_message = handle_chat_message
   }

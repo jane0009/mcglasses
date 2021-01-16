@@ -1,4 +1,4 @@
---VERSION 10
+--VERSION 11
 --[[
   written by jane petrovna
   01/08/21
@@ -30,13 +30,12 @@ end
 
 while running do
   local event, values = get_event_info(event.pull())
-  if active_events[event] == true then
-    modules.fire(event, values)
-  elseif event == "mcg_exit" or event == "interrupted" then
+  if event == "mcg_exit" or event == "interrupted" then
     running = false
     os.setenv("MCG_RUNNING", false)
     logging.debug("shut down for reason " .. values[1])
   else
+    modules.fire(event, values)
     logging.debug("got unregistered event " .. event)
   end
 end
