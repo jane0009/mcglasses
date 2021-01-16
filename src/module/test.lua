@@ -1,4 +1,20 @@
-local mod = {
+--[[
+  written by jane petrovna
+  01/15/21
+]]
+
+--TODO improve syntax
+
+local mod = {}
+
+local function handle_chat_message(args)
+  if mod.logging then
+    mod.logging.debug("chat message recv'd" .. args[0])
+  end
+  print(args)
+end
+
+mod = {
   name="test",
   pos = {
     x = 50,
@@ -9,12 +25,5 @@ local mod = {
     chat_message = handle_chat_message
   }
 }
-
-local function handle_chat_message(args)
-  if mod.logging then
-    mod.logging.debug("chat message recv'd" .. args[0])
-  end
-  print(args)
-end
 
 return mod

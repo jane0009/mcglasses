@@ -13,7 +13,7 @@ local active_modules = {}
 
 logging.info("Starting Glasses Manager")
 
-logging.debug("TEST LOG -A-B-C-D-E-F-G-H-I-J-K-L-")
+--logging.debug("TEST LOG -A-B-C-D-E-F-G-H-I-J-K-L-")
 
 local running = true
 

@@ -12,7 +12,11 @@ local function parse_module(module_list) do
   for key,value in module_list do
     if value ~= nil then
       if value.name ~= nil then
-
+        if value.events ~= nil then
+          for key,event in pairs(value.events) do
+            
+          end
+        end
       else
         parse_module(value)  
       end
