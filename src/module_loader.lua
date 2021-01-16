@@ -11,7 +11,8 @@ local modules = {}
 local element_types
 
 local function parse_modules(module_list)
-  if type(module_list ~= "table") then
+  if type(module_list) ~= "table" then
+    logging.debug("module_list is not table: " .. type(module_list))
     return
   end
   for key, value in pairs(module_list) do
@@ -85,19 +86,6 @@ module_loader.fire = function(event, args)
       value(args)
     end
   end
-end
-
--- avoid running this, double loops are costly!
-module_loader.events = function()
-  local events = {}
-  for _, mod in pairs(event_handlers) do
-    for key, evt in pairs(mod) do
-      if events[key] == nil then
-        events[key] = true
-      end
-    end
-  end
-  return events
 end
 
 return module_loader

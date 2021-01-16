@@ -8,7 +8,6 @@ local util = dofile("/var/janeptrv/mcglasses/src/util.lua")
 local logging = util.get("logging")
 local modules = util.get("module_loader")
 
-local active_events = modules.events()
 local active_modules = {}
 
 logging.info("Starting Glasses Manager")
@@ -36,7 +35,7 @@ while running do
     logging.debug("shut down for reason " .. values[1])
   else
     modules.fire(event, values)
-    logging.debug("got unregistered event " .. event)
+    logging.debug("fire event " .. event)
   end
 end
 
