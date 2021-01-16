@@ -108,9 +108,8 @@ local width, height = debug_gpu.getResolution()
 
 local function __smooth_scroll()
   if term_y >= height - 1 then
-    for i = 1, height do
-      debug_gpu.copy(1, i + 1, width, 1, 1, i)
-    end
+    debug_gpu.copy(1, 1, width, term_y, 0, 0)
+    term_x = 1
     term_y = term_y - 1
   end
 end
