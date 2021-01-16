@@ -17,6 +17,7 @@ local log_pos
 local font
 local font_size
 local log_limit
+local connected_users
 
 local current_log = {}
 
@@ -57,7 +58,7 @@ end
 
 local current_log_size = 0
 
-local function __update_log()
+local function __update_log(user)
   for key, value in pairs(glasses.widgets) do
     if logging ~= nil then
       logging.debug(key, "glasses")
@@ -68,38 +69,55 @@ local function __update_log()
   local y = log_positions[log_pos].y
 
   logging.debug("xy " .. x .. " " .. y, "glasses")
-  if not glasses.widgets["log_box"] then
-    glasses.widgets["log_box"] = glasses.bound_glasses.addBox2D()
-    -- we can't trust it
-    --glasses.widgets["log_box"].addAutoTranslation(x, y)
-    glasses.widgets["log_box"].addTranslation((x / 100) * render_resolution_x, (y / 100) * render_resolution_y, 0)
-    glasses.widgets["log_box"].setSize(font_size * 30, max_log_lines * (font_size + 3))
+  if not glasses.widgets[user] then
+    glasses.widgets[user] = {}
+  end
+  if not glasses.widgets[user]["log_box"] then
+    glasses.widgets[user]["log_box"] = glasses.bound_glasses.addBox2D()
+    glasses.widgets[user]["log_box"].setOwner(user)
+    glasses.widgets[user]["log_box"].addTranslation((x / 100) * render_resolution_x, (y / 100) * render_resolution_y, 0)
+    glasses.widgets[user]["log_box"].setSize(font_size * 30, max_log_lines * (font_size + 3))
     -- because gradients
-    glasses.widgets["log_box"].addColor(0.01, 0.01, 0.01, 0.8)
-    glasses.widgets["log_box"].addColor(0.01, 0.01, 0.01, 0.8)
+    glasses.widgets[user]["log_box"].addColor(0.01, 0.01, 0.01, 0.8)
+    glasses.widgets[user]["log_box"].addColor(0.01, 0.01, 0.01, 0.8)
   end
   for i = 1, current_log_size do
-    if not glasses.widgets["log_text_" .. i] then
-      glasses.widgets["log_text_" .. i] = glasses.bound_glasses.addText2D()
-      --glasses.widgets["log_text_" .. i].addAutoTranslation(x, y)
-      glasses.widgets["log_text_" .. i].addTranslation(
+    if not glasses.widgets[user]["log_text_" .. i] then
+      glasses.widgets[user]["log_text_" .. i] = glasses.bound_glasses.addText2D()
+      glasses.widgets[user]["log_text_" .. i].setOwner(user)
+      glasses.widgets[user]["log_text_" .. i].addTranslation(
         (x / 100) * render_resolution_x,
         (y / 100) * render_resolution_y,
         0
       )
-      glasses.widgets["log_text_" .. i].addTranslation(0, (i - 1) * (font_size + 3), 0)
-      glasses.widgets["log_text_" .. i].setFont(font)
-      glasses.widgets["log_text_" .. i].setFontSize(font_size)
+      glasses.widgets[user]["log_text_" .. i].addTranslation(0, (i - 1) * (font_size + 3), 0)
+      glasses.widgets[user]["log_text_" .. i].setFont(font)
+      glasses.widgets[user]["log_text_" .. i].setFontSize(font_size)
     end
-    glasses.widgets["log_text_" .. i].setText(current_log[i])
+    glasses.widgets[user]["log_text_" .. i].setText(current_log[i])
   end
 end
 
-glasses.log = function(msg)
+glasses.log = function(msg, user)
+  if user ~= nil then
+    glasses.__log(msg, user)
+  else
+    if connected_users == nil then
+      connected_users = glasses.bound_glasses.getConnectedPlayers()
+    end
+    for _, value in ipairs(connected_users) do
+      glasses.__log(msg, value[1]) -- value[1] is always the username
+    end
+  end
+end
+glasses.__log = function(msg, user)
+  if current_log[user] == nil then
+    current_log[user] = {}
+  end
   local idx = current_log_size
   if idx + 1 > max_log_lines then
     for i = 1, current_log_size - 1 do
-      current_log[i] = current_log[i + 1]
+      current_log[user][i] = current_log[user][i + 1]
     end
   else
     current_log_size = current_log_size + 1
@@ -107,12 +125,23 @@ glasses.log = function(msg)
   if string.len(msg) > 30 then
     local cur_msg = string.sub(msg, 1, log_limit)
     local future_msg = string.sub(msg, log_limit + 1, string.len(msg))
-    current_log[current_log_size] = cur_msg
-    glasses.log(future_msg)
+    current_log[user][current_log_size] = cur_msg
+    glasses.__log(future_msg, user)
   else
-    current_log[current_log_size] = msg
+    current_log[user][current_log_size] = msg
   end
-  __update_log()
+  __update_log(user)
+end
+
+glasses.addElement = function(element, name, user)
+  if not glasses.widgets[user] then
+    glasses.widgets[user] = {}
+  end
+  if not glasses.widgets[user][name] then
+    glasses.widgets[user][name] = element()
+    glasses.widgets[user][name].setOwner(user)
+  end
+  return glasses.widgets[user][name]
 end
 
 glasses.inject_logging = function(log)

@@ -88,6 +88,12 @@ if not filesystem.exists("/autorun.lua") then
   file:close()
 end
 
+if not filesystem.exists("/usr/bin/mcgexit.lua") then
+  print("creating shutdown program...")
+  local file = filesystem.open("/usr/bin/mcgexit.lua")
+  file:write("event.push('mcg_exit', 'manual')")
+end
+
 -- now start the actual program
 
 print("starting glasses control...")

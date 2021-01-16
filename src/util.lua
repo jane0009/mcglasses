@@ -22,13 +22,21 @@ util.get = function(filename)
   end
 end
 
-util.get_modules = function()
+util.get_modules = function(subdir)
   local modules = {}
-  local module_list = filesystem.list("/var/janeptrv/mcglasses/src/modules")
+  local module_list
+  if subdir ~= nil then
+    module_list = filesystem.list("/var/janeptrv/mcglasses/src/modules/" .. subdir)
+  else
+    module_list = filesystem.list("/var/janeptrv/mcglasses/src/modules")
+  end
   if module_list ~= nil then
     for module in module_list do
-      if not filesystem.isDirectory("/var/janeptrv/mcglasses/src/modules/" .. module) then
+      if filesystem.isDirectory("/var/janeptrv/mcglasses/src/modules/" .. module) then
+        modules[module] = util.get_modules(module)
+      else
         modules[module] = dofile("/var/janeptrv/mcglasses/src/modules/" .. module)
+        modules[module].logging = util.get("logging")
       end
     end
   end

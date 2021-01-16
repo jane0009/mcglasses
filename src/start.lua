@@ -1,13 +1,14 @@
---VERSION 9
+--VERSION 10
 --[[
   written by jane petrovna
   01/08/21
 ]]
+local event = require("event")
 local util = dofile("/var/janeptrv/mcglasses/src/util.lua")
 local logging = util.get("logging")
 local modules = util.get("module_loader")
 
-local active_events = {}
+local active_events = modules.events()
 local active_modules = {}
 
 logging.info("Starting Glasses Manager")
@@ -29,13 +30,14 @@ end
 
 while running do
   local event, values = get_event_info(event.pull())
-  if active_events[event] ~= nil and active_events[event].fire ~= nil then
-    active_events[event].fire(values)
+  if active_events[event] == true then
+    modules.fire(event, values)
   elseif event == "mcg_exit" or event == "interrupted" then
     running = false
     os.setenv("MCG_RUNNING", false)
+    logging.debug("shut down for reason " .. values[1])
   else
-    logging.debug("got event " .. event)
+    logging.debug("got unregistered event " .. event)
   end
 end
 
