@@ -11,7 +11,10 @@ local modules = {}
 local element_types
 
 local function parse_modules(module_list)
-  for _, value in module_list do
+  if type(module_list ~= "table") then
+    return
+  end
+  for _, value in pairs(module_list) do
     if value ~= nil then
       if value.name ~= nil then
         -- todo also elements
